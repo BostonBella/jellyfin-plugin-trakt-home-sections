@@ -127,23 +127,29 @@ namespace Jellyfin.Plugin.HomeScreenSections.Configuration
         public bool HideWatchedItems { get; set; } = false;
     }
     
-    public class ArrConfig
-{
-    public string? ApiKey { get; set; } = "";
-    public string? Url { get; set; } = "";
-    public int UpcomingTimeframeValue { get; set; }
-    public TimeframeUnit UpcomingTimeframeUnit { get; set; }
-    public bool ConsiderCinemaRelease { get; set; } = false;
-    public bool ConsiderPhysicalRelease { get; set; } = false;
-    public bool ConsiderDigitalRelease { get; set; } = true;
-}
+        public class ArrConfig
+    {
+        public string? ApiKey { get; set; } = "";
 
-public class TraktListConfig
-{
-    public string ListId { get; set; } = "";
+        public string? Url { get; set; } = "";
 
-    public string DisplayName { get; set; } = "";
+        public int UpcomingTimeframeValue { get; set; }
 
-    public bool Enabled { get; set; } = true;
-}
+        public TimeframeUnit UpcomingTimeframeUnit { get; set; }
+
+        public bool ConsiderCinemaRelease { get; set; } = false;
+
+        public bool ConsiderPhysicalRelease { get; set; } = false;
+
+        public bool ConsiderDigitalRelease { get; set; } = true;
+    }
+
+    public class TraktListConfig
+    {
+        public string ListId { get; set; } = "";
+
+        public string DisplayName { get; set; } = "";
+
+        public bool Enabled { get; set; } = true;
+    }
 }

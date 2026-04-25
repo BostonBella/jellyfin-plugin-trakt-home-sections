@@ -1,8 +1,12 @@
+using Jellyfin.Plugin.HomeScreenSections.Configuration;
 using Jellyfin.Plugin.HomeScreenSections.Helpers;
+using Jellyfin.Plugin.HomeScreenSections.Library;
+using Jellyfin.Plugin.HomeScreenSections.Model.Dto;
 using Jellyfin.Plugin.HomeScreenSections.Model.Trakt;
 using Jellyfin.Plugin.HomeScreenSections.Services;
 using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Querying;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
@@ -10,11 +14,25 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
     /// <summary>
     /// Base class for Trakt-backed home screen sections.
     /// </summary>
-    public abstract class TraktSectionBase
+    public abstract class TraktSectionBase : IHomeScreenSection
     {
         private readonly JellyseerrService m_jellyseerrService;
         private readonly ImageCacheService m_imageCacheService;
         private readonly ILogger m_logger;
+
+        public virtual string? Section => null;
+
+        public virtual string? DisplayText { get; set; }
+
+        public int? Limit => 1;
+
+        public string? Route => null;
+
+        public string? AdditionalData { get; set; }
+
+        public object? OriginalPayload => null;
+
+        protected virtual SectionViewMode ViewMode => SectionViewMode.Portrait;
 
         protected TraktSectionBase(
             JellyseerrService jellyseerrService,
@@ -24,6 +42,33 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
             m_jellyseerrService = jellyseerrService;
             m_imageCacheService = imageCacheService;
             m_logger = logger;
+        }
+
+        public abstract Task<QueryResult<BaseItemDto>> GetResults();
+
+        public QueryResult<BaseItemDto> GetResults(HomeScreenSectionPayload payload, IQueryCollection queryCollection)
+        {
+            return GetResults().GetAwaiter().GetResult();
+        }
+
+        public IEnumerable<IHomeScreenSection> CreateInstances(Guid? userId, int instanceCount)
+        {
+            yield return this;
+        }
+
+        public HomeScreenSectionInfo GetInfo()
+        {
+            return new HomeScreenSectionInfo
+            {
+                Section = Section,
+                DisplayText = DisplayText,
+                AdditionalData = AdditionalData,
+                Route = Route,
+                Limit = Limit ?? 1,
+                OriginalPayload = OriginalPayload,
+                ViewMode = ViewMode,
+                AllowViewModeChange = false
+            };
         }
 
         protected async Task<QueryResult<BaseItemDto>> ConvertToBaseItemDtos(

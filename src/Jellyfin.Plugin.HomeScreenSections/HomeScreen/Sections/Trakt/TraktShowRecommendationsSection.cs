@@ -12,6 +12,14 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
     {
         private readonly TraktService m_traktService;
 
+        public override string? Section => "TraktShowRecommendations";
+
+        public override string? DisplayText
+        {
+            get => HomeScreenSectionsPlugin.Instance.Configuration.TraktShowRecommendationsName;
+            set { }
+        }
+
         public TraktShowRecommendationsSection(
             TraktService traktService,
             JellyseerrService jellyseerrService,
@@ -22,7 +30,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
             m_traktService = traktService;
         }
 
-        public async Task<QueryResult<BaseItemDto>> GetResults()
+        public override async Task<QueryResult<BaseItemDto>> GetResults()
         {
             var config = HomeScreenSectionsPlugin.Instance.Configuration;
             var limit = config.TraktItemLimit;

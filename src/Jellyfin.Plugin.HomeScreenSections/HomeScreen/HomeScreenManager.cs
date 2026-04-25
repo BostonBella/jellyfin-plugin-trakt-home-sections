@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Jellyfin.Plugin.HomeScreenSections.Configuration;
 using Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections;
+using Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt;
 using Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Latest;
 using Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Persons;
 using Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.RecentlyAdded;
@@ -89,12 +90,55 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen
             
             RegisterResultsDelegate<GenreSection>();
             RegisterResultsDelegate<MyRequestsSection>();
+
+            RegisterTraktResultsDelegates();
             
             // Removed from public access while its still in dev.
             //RegisterResultsDelegate<DirectedBySection>();
             //RegisterResultsDelegate<StarringSection>();
             
             //RegisterResultsDelegate<TopTenSection>();
+        }
+
+            private void RegisterTraktResultsDelegates()
+        {
+            var config = HomeScreenSectionsPlugin.Instance.Configuration;
+
+            if (config.ShowTraktMovieRecommendations)
+            {
+                RegisterResultsDelegate<TraktMovieRecommendationsSection>();
+            }
+
+            if (config.ShowTraktShowRecommendations)
+            {
+                RegisterResultsDelegate<TraktShowRecommendationsSection>();
+            }
+
+            if (config.ShowTraktTrendingMovies)
+            {
+                RegisterResultsDelegate<TraktTrendingMoviesSection>();
+            }
+
+            if (config.ShowTraktTrendingShows)
+            {
+                RegisterResultsDelegate<TraktTrendingShowsSection>();
+            }
+
+            if (config.ShowTraktWatchlist)
+            {
+                RegisterResultsDelegate<TraktWatchlistSection>();
+            }
+
+            foreach (TraktListConfig traktListConfig in config.TraktLists
+                .Where(x => x.Enabled && !string.IsNullOrWhiteSpace(x.ListId))
+                .GroupBy(x => x.ListId)
+                .Select(x => x.First()))
+            {
+                TraktListSection traktListSection =
+                    ActivatorUtilities.CreateInstance<TraktListSection>(m_serviceProvider, traktListConfig);
+
+                RegisterResultsDelegate(traktListSection);
+            }
         }
 
         /// <inheritdoc/>

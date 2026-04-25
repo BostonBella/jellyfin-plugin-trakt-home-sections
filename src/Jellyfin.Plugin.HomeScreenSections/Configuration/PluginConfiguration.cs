@@ -23,6 +23,36 @@ namespace Jellyfin.Plugin.HomeScreenSections.Configuration
         public string? JellyseerrApiKey { get; set; } = "";
         
         public string? JellyseerrPreferredLanguages { get; set; } = "en";
+
+        public string? TraktClientId { get; set; } = "";
+
+        public string? TraktClientSecret { get; set; } = "";
+
+        public string? TraktAccessToken { get; set; } = "";
+
+        public string? TraktRefreshToken { get; set; } = "";
+
+        public DateTime TraktTokenExpiration { get; set; } = DateTime.MinValue;
+
+        public bool ShowTraktMovieRecommendations { get; set; } = true;
+
+        public string TraktMovieRecommendationsName { get; set; } = "Movie Recommendations";
+
+        public bool ShowTraktShowRecommendations { get; set; } = true;
+
+        public string TraktShowRecommendationsName { get; set; } = "Show Recommendations";
+
+        public bool ShowTraktTrendingMovies { get; set; } = true;
+
+        public string TraktTrendingMoviesName { get; set; } = "Trending Movies";
+
+        public bool ShowTraktWatchlist { get; set; } = true;
+
+        public string TraktWatchlistName { get; set; } = "Watchlist";
+
+        public int TraktItemLimit { get; set; } = 20;
+
+        public TraktListConfig[] TraktLists { get; set; } = Array.Empty<TraktListConfig>();
         
         public string? DefaultMoviesLibraryId { get; set; } = "";
         
@@ -98,13 +128,22 @@ namespace Jellyfin.Plugin.HomeScreenSections.Configuration
     }
     
     public class ArrConfig
-    {
-        public string? ApiKey { get; set; } = "";
-        public string? Url { get; set; } = "";
-        public int UpcomingTimeframeValue { get; set; }
-        public TimeframeUnit UpcomingTimeframeUnit { get; set; }
-        public bool ConsiderCinemaRelease { get; set; } = false;
-        public bool ConsiderPhysicalRelease { get; set; } = false;
-        public bool ConsiderDigitalRelease { get; set; } = true;
-    }   
+{
+    public string? ApiKey { get; set; } = "";
+    public string? Url { get; set; } = "";
+    public int UpcomingTimeframeValue { get; set; }
+    public TimeframeUnit UpcomingTimeframeUnit { get; set; }
+    public bool ConsiderCinemaRelease { get; set; } = false;
+    public bool ConsiderPhysicalRelease { get; set; } = false;
+    public bool ConsiderDigitalRelease { get; set; } = true;
+}
+
+public class TraktListConfig
+{
+    public string ListId { get; set; } = "";
+
+    public string DisplayName { get; set; } = "";
+
+    public bool Enabled { get; set; } = true;
+}
 }

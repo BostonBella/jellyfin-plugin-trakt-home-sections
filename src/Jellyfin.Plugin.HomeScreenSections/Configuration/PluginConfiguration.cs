@@ -46,6 +46,10 @@ namespace Jellyfin.Plugin.HomeScreenSections.Configuration
 
         public string TraktTrendingMoviesName { get; set; } = "Trending Movies";
 
+        public bool ShowTraktTrendingShows { get; set; } = true;
+
+        public string TraktTrendingShowsName { get; set; } = "Trending Shows";
+
         public bool ShowTraktWatchlist { get; set; } = true;
 
         public string TraktWatchlistName { get; set; } = "Watchlist";

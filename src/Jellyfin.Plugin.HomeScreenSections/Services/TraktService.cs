@@ -294,5 +294,25 @@ namespace Jellyfin.Plugin.HomeScreenSections.Services
 
             return trendingItems.Select(item => item.Movie).ToArray();
         }
+
+        public async Task<TraktShow[]> GetTrendingShows(int limit = 20)
+        {
+            using var httpClient = await CreateTraktClient();
+            var response = await httpClient.GetAsync($"/shows/trending?extended=full&limit={limit}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                m_logger.LogError("Failed to get Trakt trending shows: {Status}", response.StatusCode);
+                return Array.Empty<TraktShow>();
+            }
+
+            var trendingItems = await response.Content.ReadFromJsonAsync<TraktTrendingShowItem[]>(m_jsonOptions);
+            if (trendingItems == null)
+            {
+                return Array.Empty<TraktShow>();
+            }
+
+            return trendingItems.Select(item => item.Show).ToArray();
+        }
     }
 }

@@ -461,6 +461,15 @@
 
                         <div class="inputContainer">
                             <label class="emby-checkbox-label">
+                                <input id="chkShowTraktTrendingShows" type="checkbox" is="emby-checkbox" class="emby-checkbox">
+                                <span data-i18n="AdminTraktTrendingShows">Trending Shows</span>
+                            </label>
+                            <div class="fieldDescription" data-i18n="AdminTraktTrendingShowsDesc">Shows currently trending on Trakt.</div>
+                            <input is="emby-input" type="text" id="txtTraktTrendingShowsName" placeholder="Trending Shows" />
+                        </div>
+
+                        <div class="inputContainer">
+                            <label class="emby-checkbox-label">
                                 <input id="chkShowTraktWatchlist" type="checkbox" is="emby-checkbox" class="emby-checkbox">
                                 <span data-i18n="AdminTraktWatchlist">Watchlist</span>
                             </label>
@@ -855,6 +864,8 @@
                     TraktShowRecommendationsName: document.querySelector('#txtTraktShowRecommendationsName').value,
                     ShowTraktTrendingMovies: document.querySelector('#chkShowTraktTrendingMovies').checked,
                     TraktTrendingMoviesName: document.querySelector('#txtTraktTrendingMoviesName').value,
+                    ShowTraktTrendingShows: document.querySelector('#chkShowTraktTrendingShows').checked,
+                    TraktTrendingShowsName: document.querySelector('#txtTraktTrendingShowsName').value,
                     ShowTraktWatchlist: document.querySelector('#chkShowTraktWatchlist').checked,
                     TraktWatchlistName: document.querySelector('#txtTraktWatchlistName').value,
                     TraktItemLimit: parseInt(document.querySelector('#txtTraktItemLimit').value) || 20,
@@ -920,6 +931,8 @@
                         document.querySelector('#txtTraktShowRecommendationsName').value = config.TraktShowRecommendationsName || 'Show Recommendations';
                         document.querySelector('#chkShowTraktTrendingMovies').checked = config.ShowTraktTrendingMovies !== false;
                         document.querySelector('#txtTraktTrendingMoviesName').value = config.TraktTrendingMoviesName || 'Trending Movies';
+                        document.querySelector('#chkShowTraktTrendingShows').checked = config.ShowTraktTrendingShows !== false;
+                        document.querySelector('#txtTraktTrendingShowsName').value = config.TraktTrendingShowsName || 'Trending Shows';
                         document.querySelector('#chkShowTraktWatchlist').checked = config.ShowTraktWatchlist !== false;
                         document.querySelector('#txtTraktWatchlistName').value = config.TraktWatchlistName || 'Watchlist';
                         document.querySelector('#txtTraktItemLimit').value = config.TraktItemLimit || 20;

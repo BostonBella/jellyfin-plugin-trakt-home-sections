@@ -90,6 +90,8 @@
   "AdminTraktShowRecommendationsDesc": "Personalized show recommendations from Trakt.",
   "AdminTraktTrendingMovies": "Trending Movies",
   "AdminTraktTrendingMoviesDesc": "Movies currently trending on Trakt.",
+  "AdminTraktTrendingShows": "Trending Shows",
+  "AdminTraktTrendingShowsDesc": "Shows currently trending on Trakt.",
   "AdminTraktWatchlist": "Watchlist",
   "AdminTraktWatchlistDesc": "Movies and shows from your Trakt watchlist.",
   "AdminTraktItemsPerSection": "Items Per Section",

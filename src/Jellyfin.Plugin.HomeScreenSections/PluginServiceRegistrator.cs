@@ -18,6 +18,7 @@ namespace Jellyfin.Plugin.HomeScreenSections
             serviceCollection.AddSingleton<CollectionManagerProxy>();
             serviceCollection.AddSingleton<HomeScreenSectionService>();
             serviceCollection.AddSingleton<TraktService>();
+            serviceCollection.AddSingleton<JellyseerrService>();
             serviceCollection.AddHttpClient();
             serviceCollection.AddSingleton<ArrApiService>(services =>
             {

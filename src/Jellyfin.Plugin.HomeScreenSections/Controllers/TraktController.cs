@@ -15,15 +15,15 @@ namespace Jellyfin.Plugin.HomeScreenSections.Controllers
     [Authorize(Roles = "Administrator")]
     public class TraktController : ControllerBase
     {
-        private readonly ILogger<TraktController> _logger;
-        private readonly TraktService _traktService;
+        private readonly ILogger<TraktController> m_logger;
+        private readonly TraktService m_traktService;
 
         public TraktController(
             ILogger<TraktController> logger,
             TraktService traktService)
         {
-            _logger = logger;
-            _traktService = traktService;
+            m_logger = logger;
+            m_traktService = traktService;
         }
 
         [HttpPost("Authorize")]
@@ -33,7 +33,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.Controllers
         {
             try
             {
-                var deviceCode = await _traktService.AuthorizeDevice();
+                var deviceCode = await m_traktService.AuthorizeDevice();
                 if (deviceCode == null)
                 {
                     return BadRequest(new { error = "Failed to get device code from Trakt. Check Trakt client ID." });
@@ -43,15 +43,15 @@ namespace Jellyfin.Plugin.HomeScreenSections.Controllers
                 {
                     try
                     {
-                        var success = await _traktService.PollForToken(deviceCode);
+                        var success = await m_traktService.PollForToken(deviceCode);
                         if (success)
                         {
-                            _logger.LogInformation("Trakt authorization completed successfully.");
+                            m_logger.LogInformation("Trakt authorization completed successfully.");
                         }
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Error while polling Trakt authorization.");
+                        m_logger.LogError(ex, "Error while polling Trakt authorization.");
                     }
                 });
 
@@ -63,7 +63,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error initiating Trakt authorization.");
+                m_logger.LogError(ex, "Error initiating Trakt authorization.");
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -93,7 +93,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.Controllers
 
             HomeScreenSectionsPlugin.Instance.SaveConfiguration();
 
-            _logger.LogInformation("Trakt account deauthorized.");
+            m_logger.LogInformation("Trakt account deauthorized.");
 
             return Ok(new { success = true });
         }

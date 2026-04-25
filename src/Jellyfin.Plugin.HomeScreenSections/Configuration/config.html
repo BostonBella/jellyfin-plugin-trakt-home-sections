@@ -762,6 +762,63 @@
                 });
             }
 
+            function escapeHtmlAttribute(value) {
+                return String(value || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+            }
+
+            function addTraktListRow(listConfig = {}) {
+                const container = document.querySelector('#traktListsContainer');
+
+                const row = document.createElement('div');
+                row.className = 'trakt-list-row';
+                row.style.display = 'flex';
+                row.style.gap = '1em';
+                row.style.alignItems = 'center';
+                row.style.flexWrap = 'wrap';
+                row.style.marginBottom = '1em';
+
+                row.innerHTML = `
+                    <input is="emby-input" type="text" class="traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId)}" style="min-width: 180px;" />
+                    <input is="emby-input" type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName)}" style="min-width: 220px;" />
+                    <label class="emby-checkbox-label">
+                        <input type="checkbox" is="emby-checkbox" class="emby-checkbox traktListEnabled" ${listConfig.Enabled !== false ? 'checked' : ''}>
+                        <span>Enabled</span>
+                    </label>
+                    <button is="emby-button" type="button" class="raised emby-button btnRemoveTraktList">
+                        <span>Remove</span>
+                    </button>
+                `;
+
+                row.querySelector('.btnRemoveTraktList').addEventListener('click', function () {
+                    row.remove();
+                });
+
+                container.appendChild(row);
+            }
+
+            function loadTraktLists(traktLists) {
+                const container = document.querySelector('#traktListsContainer');
+                container.innerHTML = '';
+
+                (traktLists || []).forEach(listConfig => {
+                    addTraktListRow(listConfig);
+                });
+            }
+
+            function getTraktListsFromForm() {
+                return Array.from(document.querySelectorAll('.trakt-list-row'))
+                    .map(row => ({
+                        ListId: row.querySelector('.traktListId').value.trim(),
+                        DisplayName: row.querySelector('.traktListDisplayName').value.trim(),
+                        Enabled: row.querySelector('.traktListEnabled').checked
+                    }))
+                    .filter(listConfig => listConfig.ListId || listConfig.DisplayName);
+            }
+
             function saveConfig(e) {
                 e.preventDefault();
 
@@ -787,6 +844,18 @@
                     JellyseerrExternalUrl: document.querySelector('[data-id=txtJellyseerrExternalUrl]').value,
                     JellyseerrApiKey: document.querySelector('[data-id=txtJellyseerrApiKey]').value,
                     JellyseerrPreferredLanguages: document.querySelector('[data-id=txtJellyseerrPreferredLanguages]').value,
+                    TraktClientId: document.querySelector('#txtTraktClientId').value,
+                    TraktClientSecret: document.querySelector('#txtTraktClientSecret').value,
+                    ShowTraktMovieRecommendations: document.querySelector('#chkShowTraktMovieRecommendations').checked,
+                    TraktMovieRecommendationsName: document.querySelector('#txtTraktMovieRecommendationsName').value,
+                    ShowTraktShowRecommendations: document.querySelector('#chkShowTraktShowRecommendations').checked,
+                    TraktShowRecommendationsName: document.querySelector('#txtTraktShowRecommendationsName').value,
+                    ShowTraktTrendingMovies: document.querySelector('#chkShowTraktTrendingMovies').checked,
+                    TraktTrendingMoviesName: document.querySelector('#txtTraktTrendingMoviesName').value,
+                    ShowTraktWatchlist: document.querySelector('#chkShowTraktWatchlist').checked,
+                    TraktWatchlistName: document.querySelector('#txtTraktWatchlistName').value,
+                    TraktItemLimit: parseInt(document.querySelector('#txtTraktItemLimit').value) || 20,
+                    TraktLists: getTraktListsFromForm(),
                     DefaultMoviesLibraryId: document.querySelector('#defaultMoviesLibrary').value,
                     DefaultTVShowsLibraryId: document.querySelector('#defaultTVShowsLibrary').value,
                     DefaultMusicLibraryId: document.querySelector('#defaultMusicLibrary').value,
@@ -839,6 +908,20 @@
                         document.querySelector('[data-id=txtJellyseerrExternalUrl]').value = config.JellyseerrExternalUrl;
                         document.querySelector('[data-id=txtJellyseerrApiKey]').value = config.JellyseerrApiKey;
                         document.querySelector('[data-id=txtJellyseerrPreferredLanguages]').value = config.JellyseerrPreferredLanguages;
+
+                        document.querySelector('#txtTraktClientId').value = config.TraktClientId || '';
+                        document.querySelector('#txtTraktClientSecret').value = config.TraktClientSecret || '';
+                        document.querySelector('#chkShowTraktMovieRecommendations').checked = config.ShowTraktMovieRecommendations !== false;
+                        document.querySelector('#txtTraktMovieRecommendationsName').value = config.TraktMovieRecommendationsName || 'Movie Recommendations';
+                        document.querySelector('#chkShowTraktShowRecommendations').checked = config.ShowTraktShowRecommendations !== false;
+                        document.querySelector('#txtTraktShowRecommendationsName').value = config.TraktShowRecommendationsName || 'Show Recommendations';
+                        document.querySelector('#chkShowTraktTrendingMovies').checked = config.ShowTraktTrendingMovies !== false;
+                        document.querySelector('#txtTraktTrendingMoviesName').value = config.TraktTrendingMoviesName || 'Trending Movies';
+                        document.querySelector('#chkShowTraktWatchlist').checked = config.ShowTraktWatchlist !== false;
+                        document.querySelector('#txtTraktWatchlistName').value = config.TraktWatchlistName || 'Watchlist';
+                        document.querySelector('#txtTraktItemLimit').value = config.TraktItemLimit || 20;
+                        loadTraktLists(config.TraktLists);
+
                         document.querySelector('#chkLazyLoadEnabled').checked = config.LazyLoadEnabled;
                         document.querySelector('[data-id=numLazyLoadSections]').value = config.NumSectionsPerPage;
 
@@ -907,6 +990,10 @@
                 translatePage();
                 document.querySelector('#btnSaveConfigGlobal').addEventListener("click", saveConfig);
                 document.querySelector('#btnSaveConfigSections').addEventListener("click", saveConfig);
+                document.querySelector('#btnSaveConfigTrakt').addEventListener("click", saveConfig);
+                document.querySelector('#btnAddTraktList').addEventListener("click", function () {
+                    addTraktListRow();
+                });
 
                 // Cache bust functionality
                 const btnBustHomeSectionsCache = document.querySelector('#btnBustHomeSectionsCache');

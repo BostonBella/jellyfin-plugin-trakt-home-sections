@@ -76,7 +76,7 @@
   "AdminTraktActivationEnterCode": "and enter this code:",
   "AdminTraktWaitingAuthorization": "Waiting for authorization...",
   "AdminTraktLinked": "Trakt account linked successfully.",
-    "AdminUnlinkTraktAccount": "Unlink Trakt Account",
+  "AdminUnlinkTraktAccount": "Unlink Trakt Account",
   "AdminTraktDeveloperSettings": "Trakt Developer Settings",
   "AdminTraktAdvancedApiSettings": "Advanced Trakt API Settings",
   "AdminTraktClientId": "Trakt Client ID",

@@ -19,7 +19,7 @@
         <div style="margin-bottom: 1.5em;">
             <button class="jellyfin-tab-button active" data-tab="global" style="background: none; border: none; color: #fff; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; border-bottom: 2px solid #fff; padding: 0.5em 1em;"><h3 data-i18n="AdminGlobalSettings">Global Settings</h3></button>
             <button class="jellyfin-tab-button" data-tab="sections" style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; border-bottom: 2px solid transparent; padding: 0.5em 1em;"><h3 data-i18n="AdminSectionSettings">Section Settings</h3></button>
-            <button class="jellyfin-tab-button" data-tab="trakt" style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; border-bottom: 2px solid transparent; padding: 0.5em 1em;"><h3>Trakt</h3></button>
+            <button class="jellyfin-tab-button" data-tab="trakt" style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; border-bottom: 2px solid transparent; padding: 0.5em 1em;"><h3 data-i18n="AdminTraktSettings">Trakt</h3></button>
         </div>
 
         <form class="artworkConfigurationForm">
@@ -368,58 +368,60 @@
             
             <div id="trakt" class="jellyfin-tab-content" style="display: none;">
                 <fieldset class="verticalSection-extrabottompadding">
-                    <legend style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Trakt Authorization</legend>
+                    <legend data-i18n="AdminTraktAuthorization" style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Trakt Authorization</legend>
 
                     <div style="padding-left: .5em;">
-                        <div class="fieldDescription" style="margin-bottom: 1em;">
+                        <div class="fieldDescription" data-i18n="AdminTraktAuthorizationDesc" style="margin-bottom: 1em;">
                             Link your Trakt account to enable personalized recommendations, watchlist, and custom list sections.
                         </div>
 
                         <div id="traktNotAuthorizedSection">
                             <button is="emby-button" type="button" id="btnAuthorizeTrakt" class="raised button-submit">
-                                <span>Link Trakt Account</span>
+                                <span data-i18n="AdminLinkTraktAccount">Link Trakt Account</span>
                             </button>
                         </div>
 
                         <div id="traktAuthorizingSection" style="display: none;">
                             <div class="fieldDescription" style="margin-bottom: 1em;">
-                                Visit <a href="https://trakt.tv/activate" target="_blank" style="color: #00a4dc;">https://trakt.tv/activate</a> and enter this code:
+                                <span data-i18n="AdminTraktActivationVisit">Visit</span>
+                                <a href="https://trakt.tv/activate" target="_blank" style="color: #00a4dc;">https://trakt.tv/activate</a>
+                                <span data-i18n="AdminTraktActivationEnterCode">and enter this code:</span>
                             </div>
                             <div id="traktUserCodeDisplay" style="font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 1em 0; color: #00a4dc;">
                                 ------
                             </div>
-                            <div class="fieldDescription">Waiting for authorization...</div>
+                            <div class="fieldDescription" data-i18n="AdminTraktWaitingAuthorization">Waiting for authorization...</div>
                         </div>
 
                         <div id="traktAuthorizedSection" style="display: none;">
-                            <div class="fieldDescription" style="margin-bottom: 1em; color: #52B54B;">
+                            <div class="fieldDescription" data-i18n="AdminTraktLinked" style="margin-bottom: 1em; color: #52B54B;">
                                 Trakt account linked successfully.
                             </div>
                             <button is="emby-button" type="button" id="btnDeauthorizeTrakt" class="raised button-cancel">
-                                <span>Unlink Trakt Account</span>
+                                <span data-i18n="AdminUnlinkTraktAccount">Unlink Trakt Account</span>
                             </button>
                         </div>
                     </div>
                 </fieldset>
 
                 <fieldset class="verticalSection-extrabottompadding">
-                    <legend style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Trakt Developer Settings</legend>
+                    <legend data-i18n="AdminTraktDeveloperSettings" style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Trakt Developer Settings</legend>
 
                     <div style="padding-left: .5em;">
                         <details>
-                            <summary style="cursor: pointer; font-weight: bold;">Advanced Trakt API Settings</summary>
+                            <summary data-i18n="AdminTraktAdvancedApiSettings" style="cursor: pointer; font-weight: bold;">Advanced Trakt API Settings</summary>
 
                             <div style="padding-top: 1em;">
                                 <div class="inputContainer">
-                                    <label class="inputLabel inputLabelUnfocused" for="txtTraktClientId">Trakt Client ID</label>
+                                    <label class="inputLabel inputLabelUnfocused" for="txtTraktClientId" data-i18n="AdminTraktClientId">Trakt Client ID</label>
                                     <input is="emby-input" type="password" id="txtTraktClientId" />
-                                    <div class="fieldDescription">Client ID from your Trakt API app.</div>
+                                    <div class="fieldDescription" data-i18n="AdminTraktClientIdDesc">Client ID from your Trakt API app.</div>
                                 </div>
 
                                 <div class="inputContainer">
-                                    <label class="inputLabel inputLabelUnfocused" for="txtTraktClientSecret">Trakt Client Secret</label>
+                                    <label class="inputLabel inputLabelUnfocused" for="txtTraktClientSecret" data-i18n="AdminTraktClientSecret">Trakt Client Secret</label>
                                     <input is="emby-input" type="password" id="txtTraktClientSecret" />
-                                    <div class="fieldDescription">Client secret from your Trakt API app. Do not commit this value to GitHub.</div>
+                                    <div class="fieldDescription" data-i18n="AdminTraktClientSecretDesc">Client secret from your Trakt API app. Keep this value private.</div>
                                 </div>
                             </div>
                         </details>
@@ -427,72 +429,72 @@
                 </fieldset>
 
                 <fieldset class="verticalSection-extrabottompadding">
-                    <legend style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Home Screen Sections</legend>
+                    <legend data-i18n="AdminTraktHomeScreenSections" style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Home Screen Sections</legend>
 
                     <div style="padding-left: .5em;">
                         <div class="inputContainer">
                             <label class="emby-checkbox-label">
                                 <input id="chkShowTraktMovieRecommendations" type="checkbox" is="emby-checkbox" class="emby-checkbox">
-                                <span>Movie Recommendations</span>
+                                <span data-i18n="AdminTraktMovieRecommendations">Movie Recommendations</span>
                             </label>
-                            <div class="fieldDescription">Personalized movie recommendations from Trakt.</div>
+                            <div class="fieldDescription" data-i18n="AdminTraktMovieRecommendationsDesc">Personalized movie recommendations from Trakt.</div>
                             <input is="emby-input" type="text" id="txtTraktMovieRecommendationsName" placeholder="Movie Recommendations" />
                         </div>
 
                         <div class="inputContainer">
                             <label class="emby-checkbox-label">
                                 <input id="chkShowTraktShowRecommendations" type="checkbox" is="emby-checkbox" class="emby-checkbox">
-                                <span>Show Recommendations</span>
+                                <span data-i18n="AdminTraktShowRecommendations">Show Recommendations</span>
                             </label>
-                            <div class="fieldDescription">Personalized show recommendations from Trakt.</div>
+                            <div class="fieldDescription" data-i18n="AdminTraktShowRecommendationsDesc">Personalized show recommendations from Trakt.</div>
                             <input is="emby-input" type="text" id="txtTraktShowRecommendationsName" placeholder="Show Recommendations" />
                         </div>
 
                         <div class="inputContainer">
                             <label class="emby-checkbox-label">
                                 <input id="chkShowTraktTrendingMovies" type="checkbox" is="emby-checkbox" class="emby-checkbox">
-                                <span>Trending Movies</span>
+                                <span data-i18n="AdminTraktTrendingMovies">Trending Movies</span>
                             </label>
-                            <div class="fieldDescription">Movies currently trending on Trakt.</div>
+                            <div class="fieldDescription" data-i18n="AdminTraktTrendingMoviesDesc">Movies currently trending on Trakt.</div>
                             <input is="emby-input" type="text" id="txtTraktTrendingMoviesName" placeholder="Trending Movies" />
                         </div>
 
                         <div class="inputContainer">
                             <label class="emby-checkbox-label">
                                 <input id="chkShowTraktWatchlist" type="checkbox" is="emby-checkbox" class="emby-checkbox">
-                                <span>Watchlist</span>
+                                <span data-i18n="AdminTraktWatchlist">Watchlist</span>
                             </label>
-                            <div class="fieldDescription">Movies and shows from your Trakt watchlist.</div>
+                            <div class="fieldDescription" data-i18n="AdminTraktWatchlistDesc">Movies and shows from your Trakt watchlist.</div>
                             <input is="emby-input" type="text" id="txtTraktWatchlistName" placeholder="Watchlist" />
                         </div>
 
                         <div class="inputContainer">
-                            <label class="inputLabel inputLabelUnfocused" for="txtTraktItemLimit">Items Per Section</label>
+                            <label class="inputLabel inputLabelUnfocused" for="txtTraktItemLimit" data-i18n="AdminTraktItemsPerSection">Items Per Section</label>
                             <input is="emby-input" type="number" id="txtTraktItemLimit" min="1" max="100" />
-                            <div class="fieldDescription">Maximum number of items to show in each Trakt section.</div>
+                            <div class="fieldDescription" data-i18n="AdminTraktItemsPerSectionDesc">Maximum number of items to show in each Trakt section.</div>
                         </div>
                     </div>
                 </fieldset>
 
                 <fieldset class="verticalSection-extrabottompadding">
-                    <legend style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Custom Trakt Lists</legend>
+                    <legend data-i18n="AdminCustomTraktLists" style="padding-bottom:10px; font-weight: bolder; font-size: 1.2em;">Custom Trakt Lists</legend>
 
                     <div style="padding-left: .5em;">
-                        <div class="fieldDescription" style="margin-bottom: 1em;">
+                        <div class="fieldDescription" data-i18n="AdminCustomTraktListsDesc" style="margin-bottom: 1em;">
                             Add your Trakt lists by stable list ID.
                         </div>
 
                         <div id="traktListsContainer"></div>
 
                         <button is="emby-button" type="button" id="btnAddTraktList" class="raised">
-                            <span>+ Add List</span>
+                            <span data-i18n="AdminAddList">+ Add List</span>
                         </button>
                     </div>
                 </fieldset>
 
                 <br>
                 <button id="btnSaveConfigTrakt" is="emby-button" type="submit" class="raised button-submit block emby-button">
-                    <span>Save</span>
+                    <span data-i18n="AdminSave">Save</span>
                 </button>
             </div>
         </form>
@@ -786,10 +788,10 @@
                     <input is="emby-input" type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName)}" style="min-width: 220px;" />
                     <label class="emby-checkbox-label">
                         <input type="checkbox" is="emby-checkbox" class="emby-checkbox traktListEnabled" ${listConfig.Enabled !== false ? 'checked' : ''}>
-                        <span>Enabled</span>
+                        <span data-i18n="AdminEnabled">Enabled</span>
                     </label>
                     <button is="emby-button" type="button" class="raised emby-button btnRemoveTraktList">
-                        <span>Remove</span>
+                        <span data-i18n="AdminRemove">Remove</span>
                     </button>
                 `;
 
@@ -798,6 +800,7 @@
                 });
 
                 container.appendChild(row);
+                applyTranslations(row);
             }
 
             function loadTraktLists(traktLists) {

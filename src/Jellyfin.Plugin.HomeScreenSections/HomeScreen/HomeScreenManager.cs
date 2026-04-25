@@ -100,7 +100,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen
             //RegisterResultsDelegate<TopTenSection>();
         }
 
-            private void RegisterTraktResultsDelegates()
+        private void RegisterTraktResultsDelegates()
         {
             var config = HomeScreenSectionsPlugin.Instance.Configuration;
 

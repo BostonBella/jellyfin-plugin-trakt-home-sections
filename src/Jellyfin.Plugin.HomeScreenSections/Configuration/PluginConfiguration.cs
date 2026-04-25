@@ -127,7 +127,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.Configuration
         public bool HideWatchedItems { get; set; } = false;
     }
     
-        public class ArrConfig
+    public class ArrConfig
     {
         public string? ApiKey { get; set; } = "";
 

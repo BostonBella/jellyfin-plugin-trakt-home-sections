@@ -1,4 +1,4 @@
-﻿function test(elem, apiClient, user, userSettings, page = null) {
+function test(elem, apiClient, user, userSettings, page = null) {
     function isHomePage() {
         var href = (location.href || "");
         var hash = (location.hash || "");
@@ -70,7 +70,12 @@
     }
     
     function getHomeScreenSectionItemsHtmlFn(useEpisodeImages, enableOverflow, sectionKey, cardBuilder, getShapeFn, imageHelper, appRouter, additionalSettings) {
-        if (sectionKey === "DiscoverMovies" || sectionKey === "DiscoverTV" || sectionKey === "Discover") {
+        if (
+            sectionKey === "DiscoverMovies" ||
+            sectionKey === "DiscoverTV" ||
+            sectionKey === "Discover" ||
+            sectionKey.startsWith("DiscoverTrakt")
+        ) {
             return createDiscoverCards;
         }
         

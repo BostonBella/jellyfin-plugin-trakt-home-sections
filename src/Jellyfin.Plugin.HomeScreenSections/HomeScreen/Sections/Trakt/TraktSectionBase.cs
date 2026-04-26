@@ -165,6 +165,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
             return new BaseItemDto
             {
                 Name = jellyseerrItem.Title,
+                OriginalTitle = jellyseerrItem.Title,
                 SourceType = "movie",
                 CommunityRating = jellyseerrItem.Rating,
                 PremiereDate = jellyseerrItem.Year.HasValue
@@ -196,6 +197,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
             return new BaseItemDto
             {
                 Name = jellyseerrItem.Title,
+                OriginalTitle = jellyseerrItem.Title,
                 SourceType = "tv",
                 CommunityRating = jellyseerrItem.Rating,
                 PremiereDate = jellyseerrItem.Year.HasValue

@@ -145,6 +145,24 @@ namespace Jellyfin.Plugin.HomeScreenSections
                 {
                     pluginConfig.CacheBustCounter = currentConfig.CacheBustCounter;
                 }
+
+                // Preserve Trakt authorization tokens during normal UI config saves.
+                // The admin config page should not expose tokens in the browser, so saves from the UI
+                // may not include them. Without this, saving any plugin setting can wipe the linked account.
+                if (string.IsNullOrWhiteSpace(pluginConfig.TraktAccessToken))
+                {
+                    pluginConfig.TraktAccessToken = currentConfig.TraktAccessToken;
+                }
+
+                if (string.IsNullOrWhiteSpace(pluginConfig.TraktRefreshToken))
+                {
+                    pluginConfig.TraktRefreshToken = currentConfig.TraktRefreshToken;
+                }
+
+                if (pluginConfig.TraktTokenExpiration == DateTime.MinValue)
+                {
+                    pluginConfig.TraktTokenExpiration = currentConfig.TraktTokenExpiration;
+                }
             }
 
             base.UpdateConfiguration(configuration);

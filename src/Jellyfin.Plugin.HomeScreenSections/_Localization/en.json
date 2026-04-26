@@ -1,4 +1,4 @@
-﻿{
+{
   "BecauseYouWatched": "Because You Watched {0}",
   "ContinueWatching": "Continue Watching",
   "ContinueWatchingNextUp": "Continue Watching / Next Up",
@@ -32,6 +32,11 @@
   "UpcomingMusic": "Upcoming Music",
   "UpcomingShows": "Upcoming Shows",
   "WatchAgain": "Watch Again",
+  "TraktMovieRecommendations": "Movie Recommendations",
+  "TraktShowRecommendations": "Show Recommendations",
+  "TraktTrendingMovies": "Trending Movies",
+  "TraktTrendingShows": "Trending Shows",
+  "TraktWatchlist": "Watchlist",
 
   "Action": "Action",
   "Adventure": "Adventure",

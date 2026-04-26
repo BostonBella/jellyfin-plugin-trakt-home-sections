@@ -999,6 +999,51 @@
                     });
             }
 
+            function parseAjaxJson(response) {
+                if (!response) {
+                    return {};
+                }
+
+                if (typeof response.json === 'function') {
+                    return response.json();
+                }
+
+                if (typeof response === 'string') {
+                    return JSON.parse(response);
+                }
+
+                return response;
+            }
+
+            function getAjaxErrorMessage(error) {
+                if (!error) {
+                    return '';
+                }
+
+                if (error.responseJSON && error.responseJSON.error) {
+                    return error.responseJSON.error;
+                }
+
+                if (error.responseText) {
+                    try {
+                        const parsed = JSON.parse(error.responseText);
+                        return parsed.error || error.responseText;
+                    } catch {
+                        return error.responseText;
+                    }
+                }
+
+                if (error.message) {
+                    return error.message;
+                }
+
+                if (error.statusText) {
+                    return error.statusText;
+                }
+
+                return String(error);
+            }
+
             function setTraktAuthorizationState(state) {
                 document.querySelector('#traktNotAuthorizedSection').style.display = state === 'notAuthorized' ? 'block' : 'none';
                 document.querySelector('#traktAuthorizingSection').style.display = state === 'authorizing' ? 'block' : 'none';
@@ -1013,7 +1058,7 @@
                     headers: {
                         'Accept': 'application/json'
                     }
-                }).then(response => response.json()).then(status => {
+                }).then(parseAjaxJson).then(status => {
                     setTraktAuthorizationState(status.isAuthorized ? 'authorized' : 'notAuthorized');
                     return status.isAuthorized;
                 }).catch(error => {
@@ -1034,7 +1079,7 @@
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     }
-                }).then(response => response.json()).then(result => {
+                }).then(parseAjaxJson).then(result => {
                     document.querySelector('#traktUserCodeDisplay').textContent = result.userCode || '------';
                     setTraktAuthorizationState('authorizing');
 
@@ -1047,7 +1092,12 @@
                     }, 5000);
                 }).catch(error => {
                     console.error('Failed to authorize Trakt:', error);
-                    Dashboard.alert('Failed to start Trakt authorization. Check your Trakt Client ID and Client Secret.');
+
+                    const errorMessage = getAjaxErrorMessage(error);
+                    Dashboard.alert(
+                        'Failed to start Trakt authorization.' +
+                        (errorMessage ? ' ' + errorMessage : ' Check your Trakt Client ID and Client Secret.')
+                    );
                 }).finally(() => {
                     Dashboard.hideLoadingMsg();
                 });

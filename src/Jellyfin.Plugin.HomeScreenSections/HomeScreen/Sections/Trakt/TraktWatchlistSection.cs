@@ -12,7 +12,7 @@ namespace Jellyfin.Plugin.HomeScreenSections.HomeScreen.Sections.Trakt
     {
         private readonly TraktService m_traktService;
 
-        public override string? Section => "TraktWatchlist";
+        public override string? Section => "DiscoverTraktWatchlist";
 
         public override string? DisplayText
         {

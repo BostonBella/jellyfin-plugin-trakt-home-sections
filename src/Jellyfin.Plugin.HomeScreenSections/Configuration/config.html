@@ -793,8 +793,8 @@
                 row.style.marginBottom = '1em';
 
                 row.innerHTML = `
-                    <input is="emby-input" type="text" class="traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId)}" style="min-width: 180px;" />
-                    <input is="emby-input" type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName)}" style="min-width: 220px;" />
+                    <input is="emby-input" type="text" class="traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId || '')}" style="min-width: 180px;" />
+                    <input is="emby-input" type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName || '')}" style="min-width: 220px;" />
                     <label class="emby-checkbox-label">
                         <input type="checkbox" is="emby-checkbox" class="emby-checkbox traktListEnabled" ${listConfig.Enabled !== false ? 'checked' : ''}>
                         <span data-i18n="AdminEnabled">Enabled</span>

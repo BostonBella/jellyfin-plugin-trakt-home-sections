@@ -1,7 +1,7 @@
 <h1 align="center">Trakt Home Sections</h1>
 <h2 align="center">A Jellyfin Plugin</h2>
 <p align="center">
-	<img alt="Logo" src="https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/trakt-integration-tab/logo.png" />
+	<img alt="Logo" src="https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/main/logo.png" width="150" />
 </p>
 
 ## Introduction
@@ -74,6 +74,9 @@ Sections pulled from your *arr calendars. **Requires arr API keys to be configur
 - The following plugins must also be installed:
   - [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation)
   - [Plugin Pages](https://github.com/IAmParadox27/jellyfin-plugin-pages)
+
+**Strongly suggested (not required):**
+- [Jellyfin Enhanced](https://github.com/n00bcodr/Jellyfin-Enhanced) - enables a modal pop-up when clicking on Jellyseerr and Trakt cards, allowing you to request content without leaving Jellyfin. Without it, clicking a card opens Jellyseerr in a new browser tab instead.
 
 ### Installation via Plugin Repository
 

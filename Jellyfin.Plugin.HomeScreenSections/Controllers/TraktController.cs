@@ -29,8 +29,14 @@ namespace Jellyfin.Plugin.TraktHomeSections.Controllers
         [HttpPost("Authorize")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<object>> Authorize()
         {
+            if (m_traktService.IsPolling)
+            {
+                return Conflict(new { error = "Authorization is already in progress. Please wait for the current attempt to complete or expire." });
+            }
+
             try
             {
                 var deviceCode = await m_traktService.AuthorizeDevice();
@@ -78,7 +84,7 @@ namespace Jellyfin.Plugin.TraktHomeSections.Controllers
                 !string.IsNullOrWhiteSpace(config.TraktAccessToken) &&
                 !string.IsNullOrWhiteSpace(config.TraktRefreshToken);
 
-            return Ok(new { isAuthorized });
+            return Ok(new { isAuthorized, isPolling = m_traktService.IsPolling });
         }
 
         [HttpPost("Deauthorize")]

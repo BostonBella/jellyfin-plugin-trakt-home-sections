@@ -19,6 +19,10 @@ namespace Jellyfin.Plugin.TraktHomeSections.Services
         private readonly IHttpClientFactory m_httpClientFactory;
         private readonly JsonSerializerOptions m_jsonOptions;
 
+        private static int s_isPolling = 0;
+
+        public bool IsPolling => s_isPolling == 1;
+
         public TraktService(ILogger<TraktService> logger, IHttpClientFactory httpClientFactory)
         {
             m_logger = logger;
@@ -141,58 +145,71 @@ namespace Jellyfin.Plugin.TraktHomeSections.Services
 
         public async Task<bool> PollForToken(TraktDeviceCode deviceCode)
         {
-            var config = Plugin.Instance.Configuration;
-
-            if (string.IsNullOrWhiteSpace(TraktClientId) || string.IsNullOrWhiteSpace(TraktClientSecret))
+            if (Interlocked.CompareExchange(ref s_isPolling, 1, 0) != 0)
             {
-                m_logger.LogWarning("Cannot poll for Trakt token because client ID or client secret is missing.");
+                m_logger.LogWarning("Trakt token polling is already in progress.");
                 return false;
             }
 
-            var request = new
+            try
             {
-                code = deviceCode.DeviceCode,
-                client_id = TraktClientId,
-                client_secret = TraktClientSecret
-            };
+                var config = Plugin.Instance.Configuration;
 
-            var expiresAt = DateTime.UtcNow.AddSeconds(deviceCode.ExpiresIn);
-
-            var httpClient = m_httpClientFactory.CreateClient(NamedClient.Default);
-            httpClient.BaseAddress = new Uri(c_traktApiBaseUrl);
-            httpClient.DefaultRequestHeaders.Add("trakt-api-version", "2");
-            httpClient.DefaultRequestHeaders.Add("trakt-api-key", TraktClientId);
-
-            while (DateTime.UtcNow < expiresAt)
-            {
-                var response = await httpClient.PostAsJsonAsync("/oauth/device/token", request);
-
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (string.IsNullOrWhiteSpace(TraktClientId) || string.IsNullOrWhiteSpace(TraktClientSecret))
                 {
-                    var token = await response.Content.ReadFromJsonAsync<TraktAccessToken>(m_jsonOptions);
-                    if (token == null)
+                    m_logger.LogWarning("Cannot poll for Trakt token because client ID or client secret is missing.");
+                    return false;
+                }
+
+                var request = new
+                {
+                    code = deviceCode.DeviceCode,
+                    client_id = TraktClientId,
+                    client_secret = TraktClientSecret
+                };
+
+                var expiresAt = DateTime.UtcNow.AddSeconds(deviceCode.ExpiresIn);
+
+                var httpClient = m_httpClientFactory.CreateClient(NamedClient.Default);
+                httpClient.BaseAddress = new Uri(c_traktApiBaseUrl);
+                httpClient.DefaultRequestHeaders.Add("trakt-api-version", "2");
+                httpClient.DefaultRequestHeaders.Add("trakt-api-key", TraktClientId);
+
+                while (DateTime.UtcNow < expiresAt)
+                {
+                    var response = await httpClient.PostAsJsonAsync("/oauth/device/token", request);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var token = await response.Content.ReadFromJsonAsync<TraktAccessToken>(m_jsonOptions);
+                        if (token == null)
+                        {
+                            return false;
+                        }
+
+                        config.TraktAccessToken = token.AccessToken;
+                        config.TraktRefreshToken = token.RefreshToken;
+                        config.TraktTokenExpiration = DateTime.Now.AddSeconds(token.ExpiresIn * 0.75);
+                        Plugin.Instance.SaveConfiguration();
+
+                        m_logger.LogInformation("Successfully authorized Trakt account.");
+                        return true;
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Gone || response.StatusCode == (HttpStatusCode)418)
                     {
                         return false;
                     }
 
-                    config.TraktAccessToken = token.AccessToken;
-                    config.TraktRefreshToken = token.RefreshToken;
-                    config.TraktTokenExpiration = DateTime.Now.AddSeconds(token.ExpiresIn * 0.75);
-                    Plugin.Instance.SaveConfiguration();
-
-                    m_logger.LogInformation("Successfully authorized Trakt account.");
-                    return true;
+                    await Task.Delay(deviceCode.Interval * 1000);
                 }
 
-                if (response.StatusCode == HttpStatusCode.Gone || response.StatusCode == (HttpStatusCode)418)
-                {
-                    return false;
-                }
-
-                await Task.Delay(deviceCode.Interval * 1000);
+                return false;
             }
-
-            return false;
+            finally
+            {
+                Interlocked.Exchange(ref s_isPolling, 0);
+            }
         }
 
         public async Task<TraktListItem[]> GetListItems(string listId, int limit = 20)

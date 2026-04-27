@@ -795,8 +795,8 @@
                 row.style.marginBottom = '1em';
 
                 row.innerHTML = `
-                    <input is="emby-input" type="text" class="traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId || '')}" style="min-width: 180px;" />
-                    <input is="emby-input" type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName || '')}" style="min-width: 220px;" />
+                    <input type="text" class="emby-input traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId || '')}" style="min-width: 180px;" />
+                    <input type="text" class="emby-input traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName || '')}" style="min-width: 220px;" />
                     <label class="emby-checkbox-label">
                         <input type="checkbox" is="emby-checkbox" class="emby-checkbox traktListEnabled" ${listConfig.Enabled !== false ? 'checked' : ''}>
                         <span data-i18n="AdminEnabled">Enabled</span>
@@ -1071,6 +1071,8 @@
             }
 
             function authorizeTrakt() {
+                const btn = document.querySelector('#btnAuthorizeTrakt');
+                btn.disabled = true;
                 Dashboard.showLoadingMsg();
 
                 window.ApiClient.ajax({
@@ -1089,17 +1091,23 @@
                         refreshTraktAuthorizationStatus().then(isAuthorized => {
                             if (isAuthorized) {
                                 clearInterval(authorizationCheckInterval);
+                                btn.disabled = false;
                             }
                         });
                     }, 5000);
                 }).catch(error => {
                     console.error('Failed to authorize Trakt:', error);
+                    btn.disabled = false;
 
                     const errorMessage = getAjaxErrorMessage(error);
-                    Dashboard.alert(
-                        'Failed to start Trakt authorization.' +
-                        (errorMessage ? ' ' + errorMessage : ' Check your Trakt Client ID and Client Secret.')
-                    );
+                    if (errorMessage && errorMessage.includes('already in progress')) {
+                        Dashboard.alert('Trakt authorization is already in progress. Please complete the current attempt or wait for it to expire.');
+                    } else {
+                        Dashboard.alert(
+                            'Failed to start Trakt authorization.' +
+                            (errorMessage ? ' ' + errorMessage : ' Check your Trakt Client ID and Client Secret.')
+                        );
+                    }
                 }).finally(() => {
                     Dashboard.hideLoadingMsg();
                 });
@@ -1137,7 +1145,9 @@
                 document.querySelector('#btnAddTraktList').addEventListener("click", function () {
                     addTraktListRow();
                 });
+                document.querySelector('#btnAuthorizeTrakt').removeEventListener("click", authorizeTrakt);
                 document.querySelector('#btnAuthorizeTrakt').addEventListener("click", authorizeTrakt);
+                document.querySelector('#btnDeauthorizeTrakt').removeEventListener("click", deauthorizeTrakt);
                 document.querySelector('#btnDeauthorizeTrakt').addEventListener("click", deauthorizeTrakt);
                 refreshTraktAuthorizationStatus();
 

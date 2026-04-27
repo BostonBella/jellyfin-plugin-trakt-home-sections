@@ -942,7 +942,10 @@
                 });
 
                 window.ApiClient.updatePluginConfiguration(pluginId, config)
-                    .then(Dashboard.processPluginConfigurationUpdateResult)
+                    .then(function () {
+                        Dashboard.hideLoadingMsg();
+                        Dashboard.alert('Settings saved. Restart Jellyfin for changes to take effect.');
+                    })
                     .catch(e => console.error(e))
                     .finally(() => Dashboard.hideLoadingMsg());
             }

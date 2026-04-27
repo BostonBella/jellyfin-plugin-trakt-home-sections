@@ -5,4 +5,5 @@ using Jellyfin.Plugin.TraktHomeSections.Attributes;
 [assembly: AssemblyProduct("Jellyfin.Plugin.TraktHomeSections")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyTitle("Jellyfin.Plugin.TraktHomeSections")]
-[assembly: AssemblyVersion("2.4.0.0")]
+[assembly: JellyfinVersion("10.11.5")]
+[assembly: AssemblyVersion("1.0.0.0")]

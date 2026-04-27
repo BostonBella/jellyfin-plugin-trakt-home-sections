@@ -118,7 +118,7 @@ To find the ID for a custom Trakt list: go to the list on trakt.tv, click the **
 
 **No sections or changes after install**
 
-Open your browser developer tools, go to the **Network** tab, check **Disable cache**, and refresh the page while dev tools are still open. This clears cached Jellyfin web client files that may be serving the old home screen.
+Clear your browser cache and cookies, then restart Jellyfin. Jellyfin applies plugin updates on restart and cached files may cause the old home screen to appear.
 
 **Jellyseerr sections are not appearing**
 
@@ -126,15 +126,21 @@ Make sure your Jellyseerr URL and API key are entered in the Jellyseerr tab of t
 
 **Trakt sections are not appearing**
 
-Trakt sections require two things to work: your Trakt account must be linked, and Jellyseerr must be configured. Trakt uses Jellyseerr to fetch card images and metadata. Check that both are set up in the admin config.
+Trakt sections require all of the following to work:
+
+- A Trakt API application with Client ID and Secret entered in the Trakt Configuration section
+- Your Trakt account linked via the Trakt Authorization section
+- Jellyseerr configured with a valid URL and API key
+
+Trakt uses Jellyseerr to fetch card images and metadata. If any of these are missing the sections will appear empty.
 
 **Home Sections menu not appearing in the hamburger menu**
 
 If the admin has disabled user override, the Home Sections option will not appear in the hamburger menu. Contact your Jellyfin administrator.
 
-**Cards are landscape instead of portrait**
+**Trakt sections only show portrait cards**
 
-This is expected. Due to how cards are delivered from the Jellyfin backend all cards in this plugin render in landscape orientation.
+View mode selection for Trakt sections is not yet available. Support for portrait, landscape, and square card modes is planned for a future release.
 
 ---
 

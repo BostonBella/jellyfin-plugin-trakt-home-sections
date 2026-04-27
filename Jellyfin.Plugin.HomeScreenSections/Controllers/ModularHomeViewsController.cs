@@ -92,13 +92,17 @@ namespace Jellyfin.Plugin.TraktHomeSections.Controllers
             IEnumerable<SectionSettings> adminLockedSections =
                 Plugin.Instance.Configuration.SectionSettings.Where(x => !x.AllowUserOverride);
             
-            return m_homeScreenManager.GetUserSettings(userId) ?? new ModularHomeUserSettings
+            var userSettings = m_homeScreenManager.GetUserSettings(userId) ?? new ModularHomeUserSettings
             {
                 UserId = userId,
                 EnabledSections = defaultEnabledSections.Select(x => x.SectionId).ToList(),
-                LockedSections = adminLockedSections.Select(x => x.SectionId).ToList(),
                 DefaultEnabledSections = defaultEnabledSections.Select(x => x.SectionId).ToList()
             };
+
+            // Always override LockedSections from current admin config
+            userSettings.LockedSections = adminLockedSections.Select(x => x.SectionId).ToList();
+
+            return userSettings;
         }
 
         /// <summary>

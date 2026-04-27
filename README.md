@@ -1,209 +1,139 @@
-<h1 align="center">Home Screen Sections</h1>
+cat > /workspaces/jellyfin-plugin-trakt-home-sections/README.md << 'READMEEOF'
+<h1 align="center">Trakt Home Sections</h1>
 <h2 align="center">A Jellyfin Plugin</h2>
 <p align="center">
-	<img alt="Logo" src="https://raw.githubusercontent.com/IAmParadox27/jellyfin-plugin-home-sections/main/src/logo.png" />
-	<br />
-	<br />
-	<a href="https://github.com/IAmParadox27/jellyfin-plugin-home-sections">
-		<img alt="GPL 3.0 License" src="https://img.shields.io/github/license/IAmParadox27/jellyfin-plugin-home-sections.svg" />
-	</a>
-	<a href="https://github.com/IAmParadox27/jellyfin-plugin-home-sections/releases">
-		<img alt="Current Release" src="https://img.shields.io/github/release/IAmParadox27/jellyfin-plugin-home-sections.svg" />
-	</a>
+	<img alt="Logo" src="https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/main/logo.png" />
 </p>
 
-<details>
-	<summary><h2>Development Update - 20/08/2025</h2></summary>
-
-Hey all! Things are changing with my plugins are more and more people start to use them and report issues. In order to make it easier for me to manage I'm splitting bugs and features into different areas. For feature requests please head over to <a href="https://features.iamparadox.dev/">https://features.iamparadox.dev/</a> where you'll be able to signin with GitHub and make a feature request. For bugs please report them on the relevant GitHub repo and they will be added to the <a href="https://github.com/users/IAmParadox27/projects/1/views/1">project board</a> when I've seen them. I've found myself struggling to know when issues are made and such recently so I'm also planning to create a system that will monitor a particular view for new issues that come up and send me a notification which should hopefully allow me to keep more up to date and act faster on various issues.
-
-As with a lot of devs, I am very momentum based in my personal life coding and there are often times when these projects may appear dormant, I assure you now that I don't plan to let these projects go stale for a long time, there just might be times where there isn't an update or response for a couple weeks, but I'll try to keep that better than it has been. With all new releases to Jellyfin I will be updating as soon as possible, I have already made a start on 10.11.0 and will release an update to my plugins hopefully not long after that version is officially released!
-
-</details>
-
 ## Introduction
-Home Screen Sections (HSS) is a Jellyfin plugin which allows users to update their web client's home screen to be a bit more dynamic and more "Netflixy".
 
-### Sections Included
-A lot of the sections included are the base sections that would appear in a vanilla instance of Jellyfin. This has been done because using HSS hasn't been integrated to work side by side with the vanilla home screen and instead wholesale replaces it. Since a lot of the sections are useful and contain everything you'd want in a home screen they've been included for convenience.
+Trakt Home Sections is a Jellyfin plugin that gives you a dynamic, fully customizable home screen with deep integration for [Trakt](https://trakt.tv), [Jellyseerr](https://github.com/Fallenbagel/jellyseerr), and the \*arr ecosystem. Rows are organized by category and ordered using a simple drag-and-drop interface rather than manual numbering.
 
-> **NOTE**: Its worth noting that the sections that have been created are one's that I myself use for my own instance, if there is a section that's missing/you'd like to request, you can open a feature request on my features dashboard: https://features.iamparadox.dev/ or implement it yourself and open a PR to have it merged or create a plugin that is integrated with this one (see below)!
+It is a fork of [Home Screen Sections](https://github.com/IAmParadox27/jellyfin-plugin-home-sections) by IAmParadox27, extended with native Trakt integration and a redesigned admin interface.
 
-These vanilla sections are listed here:
+> **Note:** This plugin is a community project and is not affiliated with Trakt or the Jellyfin project.
 
-- My Media
-	- Same as vanilla Jellyfin
-- Continue Watching
-	- Same as vanilla Jellyfin
-- Next Up
-	- Same as vanilla Jellyfin
-- Recently Added Media
-	- Mostly the same as vanilla Jellyfin, current exception is that all libraries appear in 1 section rather than unique ones per library. This vanilla behaviour is being worked on and will soon be supported.
-- Live TV
-	- Mostly the same as vanilla Jellyfin. _Current State is untested since updating to 10.10.3 so may find that there are issues_
+---
 
-The sections that are new for this plugin (and most likely the reason you would use this plugin in the first place) are outlined here:
+## Sections
 
-- Latest Movies/TV Shows
-    - These are movies/shows that have recently aired (or released) rather than when they were added to your library. 
+The plugin replaces the default Jellyfin home screen with configurable rows organized into four categories. Each category has its own admin tab.
 
-- Because You Watched
-	- Very similar to Netflix's "because you watched" section
+### Default Home
 
-- Watch Again
-	- Again similar to Netflix's feature of the same name, this will show Movies in a Collection and TV Shows that have been watched to their completion and will provide the user an option to watch the show/movie collection again. The listed entry will be the first movie to be released in that collection (done by Premiere Date) or the first episode in the series.
+Standard Jellyfin rows, fully configurable:
 
-- Genre
-	- Selects a weighted random set of genres based on the users viewing history and displays movies within that genre.
+- **My Media** - same as vanilla Jellyfin
+- **Continue Watching** - resume where you left off
+- **Next Up** - next unwatched episodes in your in-progress shows
+- **Recently Added** - movies, shows, albums, artists, books, audiobooks, music videos
+- **Latest** - latest movies, shows, albums, books, audiobooks, music videos
+- **Because You Watched** - recommendations based on viewing history
+- **Watch Again** - completed movies and shows surfaced for a rewatch, starting from the first in a collection or series
+- **Genre** - a weighted random genre row drawn from your watch history
+- **My List** - your personal saved list
+- **Top Ten** - your top ten most watched content
+- **Live TV** - same as vanilla Jellyfin
 
-- Discover
-	- The discover sections are integrated with Jellyseerr to bring the Discover Movies, Discover Shows and Trending sections of Jellyseerr into Jellyfin. They will only show media that isn't available in your library and have a direct request button right on the card for convenient requesting.
+### Jellyseerr
 
-- My Requests
-	- Another Jellyseerr integrated section that allows the user to see all their requested media in a single row.
+Sections powered by your Jellyseerr instance, showing content not yet in your library with one-click requesting:
 
-- Upcoming
- 	- The upcoming sections are integrated into the *arrs to bring their calendars as sections in Jellyfin.
+- **Discover Movies**
+- **Discover TV**
+- **Trending**
+- **My Requests** - all of your pending and fulfilled requests in one row
 
-<details>
-	<summary><strong>Expand for screenshot of what the home screen can turn into.</strong></summary>
-	<i>Please note: Images have been blurred</i>
-	<img src="https://raw.githubusercontent.com/IAmParadox27/jellyfin-plugin-home-sections/refs/heads/main/screenshots/HSS_Showcase.png" alt="Home Screen Sections Showcase" />
-</details>
+### Trakt
+
+Sections powered by your linked Trakt account:
+
+- **Watchlist** - movies and shows on your Trakt watchlist
+- **Movie Recommendations** - personalized movie recommendations from Trakt
+- **Show Recommendations** - personalized show recommendations from Trakt
+- **Trending Movies** - what is trending on Trakt right now
+- **Trending Shows** - trending shows on Trakt right now
+- **Custom Lists** - add any public or private Trakt list as its own home screen row
+
+### Upcoming
+
+Sections pulled from your \*arr calendars:
+
+- **Upcoming Movies** - from Radarr
+- **Upcoming Shows** - from Sonarr
+- **Upcoming Music** - from Lidarr
+- **Upcoming Books** - from Readarr
+
+---
 
 ## Installation
 
 ### Prerequisites
-- This plugin is based on at least Jellyfin Version `10.10.7`, with 10.11.x also officially supported.
-- The following plugins are required to also be installed, please following their installation guides, always install the latest versions for the most stable experience:
-  - File Transformation (https://github.com/IAmParadox27/jellyfin-plugin-file-transformation)
-  - Plugin Pages (https://github.com/IAmParadox27/jellyfin-plugin-pages)
 
-### Installation
-1. Add `https://www.iamparadox.dev/jellyfin/plugins/manifest.json` to your plugin repositories.
-2. Install `Home Screen Sections` from the Catalogue.
-3. Restart Jellyfin.
-4. On the user's homepage, open the hamburger menu and you should see a link for settings to "Modular Home". Click this.
-5. At the top there is a button to enable support and it will retrieve all sections that are available on your instance. Select all that apply.
-6. Save the settings. _Please note currently the user is not provided any feedback when the settings are saved_.
-7. Force refresh your webpage (or app) and you should see your new sections instead of the original ones.
-## Upcoming Features/Known Issues
-If you find an issue with any of the sections or usage of the plugin, please open an issue on GitHub.
+- Jellyfin **10.10.7** or **10.11.x**
+- The following plugins must also be installed:
+  - [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation)
+  - [Plugin Pages](https://github.com/IAmParadox27/jellyfin-plugin-pages)
 
-### FAQ
+### Installation via Plugin Repository
 
-<details>
-	<summary><strong>I've updated Jellyfin to latest version but I can't see the plugin available in the catalogue</strong></summary>
+1. In the Jellyfin dashboard go to **Plugins -> Repositories**.
+2. Add the following repository URL:
+   ```
+   https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/main/manifest.json
+   ```
+3. Go to **Plugins -> Catalogue** and install **Trakt Home Sections**.
+4. Restart Jellyfin.
 
-The likelihood is the plugin hasn't been updated for that version of Jellyfin and the plugins are strictly 1 version compatible. Please wait until an update has been pushed. If you can see the version number in the release assets then please make an issue, but if its not in the assets, please wait. I know Jellyfin has updated, I'll update when I can.
+### First-Time Setup
 
-</details>
+1. From the Jellyfin dashboard go to **Plugins -> Trakt Home Sections** to open the admin config.
+2. Use the tabs to configure each section category:
+   - **Default Home** - enable and order your standard Jellyfin rows
+   - **Jellyseerr** - enter your Jellyseerr URL and API key, then enable the sections you want
+   - **Trakt** - link your Trakt account and enable the sections you want; add custom Trakt lists here
+   - **Upcoming** - enter your \*arr URLs and API keys
+   - **Advanced** - additional plugin settings
+3. On the Jellyfin home screen open the hamburger menu and click **Home Sections**.
+4. Enable the sections you want and save.
+5. Force-refresh your browser (Ctrl+Shift+R / Cmd+Shift+R) to see your new home screen.
 
-<details>
-	<summary><strong>I've installed the plugins and don't get any options or changes. How do I fix?</strong></summary>
+---
 
-This is common, particularly on a fresh install. The first thing you should try is the following
-1. Launch your browsers developer tools
+## Trakt Authorization
 
-![image](https://github.com/user-attachments/assets/e8781a69-464e-430e-a07c-5172a620ef84)
+1. Go to **Plugins -> Trakt Home Sections -> Trakt** tab.
+2. Click **Link Trakt Account** and follow the device authorization flow on trakt.tv.
+3. Once authorized your Trakt sections will become active.
 
-3. Open the **Network** tab across the top bar
-4. Check the **Disable cache** checkbox
-5. Refresh the page **while the dev tools are still open**
+To find the ID for a custom Trakt list: go to the list on trakt.tv, click the **Copy Link** icon, and paste the URL. The numeric ID is at the end of that URL.
 
-![image](https://github.com/user-attachments/assets/6f8c3fc7-89a3-4475-b8a6-cd4a58d51b84)
+---
 
-</details>
+## Troubleshooting
 
-<details>
-	<summary><strong>How can I tell if its worked?</strong></summary>
+**No sections or changes after install**
 
-> The easiest way to confirm whether the user is using the modular home settings is to check whether the movie posters are portrait or landscape. Due to how the cards are delivered from the backend all cards are forced to be landscape
-</details>
+Open your browser developer tools, go to the **Network** tab, check **Disable cache**, and refresh the page while dev tools are still open. This clears cached Jellyfin web client files that may be serving the old home screen.
 
-## Contribution
+**Trakt sections are not appearing**
 
-### Translation
+Make sure your Trakt account is linked in the Trakt tab and that at least one Trakt section is enabled. Trakt sections will not appear until authorization has been completed.
 
-If you would like to help translate this plugin into your language, follow the below steps:
+**Cards are landscape instead of portrait**
 
-The plugin is setup to support language codes and language + region codes. Please use the [ISO 639-1](https://www.loc.gov/standards/iso639-2/php/code_list.php) language codes for file names. If you're including region code as well please format as `en-GB` where region codes are from [ISO 3166](https://www.iso.org/obp/ui/#search).
+This is expected. Due to how cards are delivered from the Jellyfin backend all cards in this plugin render in landscape orientation.
 
-If you need to add a genre to the translation list, please add it at the bottom of the language file (below the line break) with the below rules:
+---
 
-- Please add the English name to en.json
-- Please use the English name for the key
-- Please ensure the key has no spaces or dashes
-  - The key should be in the format `GenreName` (e.g. `SciFi` or `GameShow` instead of `Sci-Fi` or `Game Show`)
-- If you are adding a full translation for `<Genre> Movies` please add the key in the format `<Genre>Movies` (without the angle brackets) to the very bottom of the file.
-  - See `de.json` for an example with "ComedyMovies" 
+## Credits
 
-> [!NOTE]
->
-> The initial translations were generated using AI and may not be perfect. If you find any issues with the translations, please feel free to open a PR to resolve them; I am unfortunately very monolingual, so I won't be able to spot any issues myself.
+This plugin is built on top of [Home Screen Sections](https://github.com/IAmParadox27/jellyfin-plugin-home-sections) by [IAmParadox27](https://github.com/IAmParadox27), licensed under GPL 3.0. All original sections and plugin architecture originate from that project.
 
-1. Fork this repository
-2. Add/Edit the translation file in `src/Jellyfin.Plugin.HomeScreenSections/_Localization`
-3. Create a pull request
+---
 
-### Code Contributions
+## License
 
-You're more than welcome to contribute to this plugin in any way that betters it, whether that's new sections or bug/performance fixes! I only ask that you follow the same code style as myself. A few points to note:
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
-- Please don't commit with any whitespace changes, might be worth turning off auto-linters
-- Please don't use `var` unless you have to due to differing namespaces between JF versions (honestly, I'm not going to gripe for the odd one, but it's good to try at least)
-- Please at least check the plugin compiles with 10.10.7 and the latest version of JF
-- Please put braces on new lines and use them even for 1 line statements
-
-As a general rule of thumb, please try to blend in with the codebase, I use a mutated hungarian notation for my coding style, I will ask for this to be followed.
-
-After following these guidelines, please create a pull request and I'll review it as soon as I can. For more complex changes, I may ask you to rebase to the `experimental` branch to give it extra testing before it gets merged across.
-
-Please declare your AI usage, if any, and if you have used AI for your change, please also declare your coding experience without AI. This won't impact whether the change is merged, it will allow me to properly and correctly review the change to ensure that nothing slips through the net.
-
-### Adding your own sections
-> This is great an' all but I want a section that doesn't exist here. Can I make one?
-
-Yep! Home Screen Sections exposes a static interface which can be used to register sections.
-
-Due to issues with Jellyfin's plugins being loaded into different load contexts this cannot be referenced directly. Instead you can use reflection to invoke the plugin directly to register your section.
-
-1. Prepare your payload
-```json
-{
-    "id": "00000000-0000-0000-0000-000000000000", // Guid
-    "displayText": "", // What text should be displayed by default for your section
-    "limit": 1, // The number of times this section can appear up to
-    "route": "", // The route that should be linked on the section header, if applicable
-    "additionalData": "", // Any accompanying data you want sent to your results handler
-	"resultsAssembly": GetType().Assembly.FullName, // Example value is a string from C# that should be resolved before adding to json
-	"resultsClass": "", // The name of the class that should be invoked from the above assembly
-	"resultsMethod": "" // The name of the function that should be invoked from the above class
-}
-```
-2. Send your payload to the home screen sections assembly
-```csharp
-Assembly? homeScreenSectionsAssembly =
-	AssemblyLoadContext.All.SelectMany(x => x.Assemblies).FirstOrDefault(x =>
-		x.FullName?.Contains(".HomeScreenSections") ?? false);
-
-if (homeScreenSectionsAssembly != null)
-{
-	Type? pluginInterfaceType = homeScreenSectionsAssembly.GetType("Jellyfin.Plugin.HomeScreenSections.PluginInterface");
-
-	if (pluginInterfaceType != null)
-	{
-		pluginInterfaceType.GetMethod("RegisterSection")?.Invoke(null, new object?[] { payload });
-	}
-}
-```
-
-When your section results method is invoked you will receive an object representing the following json format (it will try to serialize it to the type you specify in the signature)
-```json
-{
-  "UserId": "", // The GUID of the user that is requesting the section
-  "AdditionalData": "" // The additional data you sent in the registration
-}
-```
-
-You must make sure that your section results method returns a `QueryResult<BaseItemDto>`.
+READMEEOF

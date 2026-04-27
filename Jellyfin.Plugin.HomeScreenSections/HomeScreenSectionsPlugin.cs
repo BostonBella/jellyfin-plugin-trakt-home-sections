@@ -27,7 +27,7 @@ namespace Jellyfin.Plugin.TraktHomeSections
     
         public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, IServerConfigurationManager serverConfigurationManager, IServiceProvider serviceProvider, IHomeScreenManager homeScreenManager, ITranslationManager translationManager) : base(applicationPaths, xmlSerializer)
         {
-            int pluginPageConfigVersion = 1;
+            int pluginPageConfigVersion = 2;
             Instance = this;
             
             ServerConfigurationManager = serverConfigurationManager;
@@ -89,7 +89,7 @@ namespace Jellyfin.Plugin.TraktHomeSections
                 {
                     { "Id", typeof(Plugin).Namespace },
                     { "Url", $"{(supportsSubUrls ? "" : rootUrl)}/ModularHomeViews/settings" },
-                    { "DisplayText", "Modular Home" },
+                    { "DisplayText", "Home Sections" },
                     { "Icon", "ballot" },
                     { "Version", pluginPageConfigVersion }
                 });

@@ -1,6 +1,6 @@
 <form id="config-page" class="configForm" style="margin: 0 auto;">
     <div class="verticalSection verticalSection-extrabottompadding">
-        <h2 class="sectionTitle" data-i18n="AdminModularHomeSettings">Modular Home  - Settings:</h2>
+        <h2 class="sectionTitle" data-i18n="AdminModularHomeSettings">Home Sections</h2>
 
         <div class="verticalSection verticalSection-extrabottompadding">
             <label class="checkboxContainer">
@@ -66,6 +66,7 @@
                     }
 
                     if (hssMeta.AllowUserOverride !== true) {
+                        document.querySelector('#enabledSections').closest('.verticalSection').style.display = 'none';
                         document.querySelector('#modularHomeEnabled').disabled = true;
                         document.querySelector('#modularHomeEnabled').parentElement.style.opacity = "0.5";
                     }

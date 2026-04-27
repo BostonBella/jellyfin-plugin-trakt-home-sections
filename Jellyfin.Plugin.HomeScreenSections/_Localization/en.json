@@ -102,7 +102,7 @@
   "AdminTraktItemsPerSection": "Items Per Section",
   "AdminTraktItemsPerSectionDesc": "Maximum number of items to show in each Trakt section.",
   "AdminCustomTraktLists": "Custom Trakt Lists",
-  "AdminCustomTraktListsDesc": "Add your Trakt lists by stable list ID.",
+  "AdminCustomTraktListsDesc": "Add your Trakt lists by list ID. To find a list ID, go to the list on trakt.tv, click the Copy Link icon and paste the URL - the numeric ID is at the end. Each list gets its own row.",
   "AdminAddList": "+ Add List",
   "AdminRemove": "Remove",
   "AdminDefaultSettings": "Default Settings",

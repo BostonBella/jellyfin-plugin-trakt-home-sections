@@ -102,7 +102,7 @@
   "AdminTraktItemsPerSection": "Items Per Section",
   "AdminTraktItemsPerSectionDesc": "Maximum number of items to show in each Trakt section.",
   "AdminCustomTraktLists": "Custom Trakt Lists",
-  "AdminCustomTraktListsDesc": "Add your Trakt lists by stable list ID.",
+  "AdminCustomTraktListsDesc": "Add your Trakt lists by list ID. To find a list ID, go to the list on trakt.tv, click the Copy Link icon and paste the URL - the numeric ID is at the end. Each list gets its own row.",
   "AdminAddList": "+ Add List",
   "AdminRemove": "Remove",
   "AdminDefaultSettings": "Default Settings",
@@ -236,8 +236,8 @@
   "AdminHelp": "Help",
   "AdminSave": "Save",
 
-  "AdminModularHomeSettings": "Modular Home - Settings:",
-  "AdminEnableModularHome": "Enable \"Modular Home\". This will change your home screen into a more dynamic screen with options from other plugins to be able to contribute into what you see and are recommended.",
+  "AdminModularHomeSettings": "Home Sections - Settings:",
+  "AdminEnableModularHome": "Enable \"Home Sections\". This will change your home screen into a more dynamic screen with options from other plugins to be able to contribute into what you see and are recommended.",
   "AdminEnabledSections": "Enabled Sections",
   "AdminSettingsUpdated": "Settings have been updated, reloading page in 2 seconds.",
   "AdminReleaseTypeRequired": "At least one release type must be selected for upcoming movies."

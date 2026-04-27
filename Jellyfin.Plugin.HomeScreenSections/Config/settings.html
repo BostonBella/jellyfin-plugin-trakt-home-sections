@@ -165,5 +165,12 @@
         }
     }
 
-    window.HomeScreenSectionsUserSettings.setup();
+    function trySetup() {
+    if (window.ApiClient && window.ApiClient.getCurrentUserId()) {
+        window.HomeScreenSectionsUserSettings.setup();
+    } else {
+        setTimeout(trySetup, 100);
+    }
+}
+trySetup();
 </script>

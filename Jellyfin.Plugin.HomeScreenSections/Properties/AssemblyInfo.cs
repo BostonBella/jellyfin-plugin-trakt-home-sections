@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Jellyfin.Plugin.TraktHomeSections.Attributes;
 
-[assembly: AssemblyCompany("IAmParadox27")]
+[assembly: AssemblyCompany("BostonBella")]
 [assembly: AssemblyProduct("Jellyfin.Plugin.TraktHomeSections")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyTitle("Jellyfin.Plugin.TraktHomeSections")]

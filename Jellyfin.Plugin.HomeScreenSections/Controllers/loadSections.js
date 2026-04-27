@@ -636,7 +636,23 @@ function test(elem, apiClient, user, userSettings, page = null) {
                     }
                     fn175_((var39_4 = var39_4.apply(var39_, [])).next())
                 }))
+               
             }(elem, apiClient, user, userSettings);
+
+            if (!window.__traktRefreshTriggered) {
+                window.__traktRefreshTriggered = true;
+
+                setTimeout(() => {
+                    try {
+                        if (window.location.hash.includes("home")) {
+                            console.log("Refreshing home after Trakt update...");
+                            window.location.reload();
+                        }
+                    } catch (e) {
+                        console.error("Reload failed:", e);
+                    }
+                }, 1000);
+            }
         }, function (error) {
             console.error("Error fetching sections with HSS, defaulting back to Jellyfin:", error);
             return _this.originalLoadSections(elem, apiClient, user, userSettings);

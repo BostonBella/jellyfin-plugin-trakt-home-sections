@@ -492,7 +492,7 @@
 
                     <div style="padding-left: .5em;">
                         <div class="fieldDescription" data-i18n="AdminCustomTraktListsDesc" style="margin-bottom: 1em;">
-                            Add your Trakt lists by stable list ID.
+                            Add your Trakt lists by list ID. To find a list ID, go to the list on trakt.tv, click the Copy Link icon and paste the URL - the numeric ID is at the end. Each list gets its own row.
                         </div>
 
                         <div id="traktListsContainer"></div>
@@ -794,21 +794,56 @@
                 row.style.flexWrap = 'wrap';
                 row.style.marginBottom = '1em';
 
-                row.innerHTML = `
-                    <input type="text" class="traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId || '')}" style="min-width: 180px; padding: 0.5em; background: transparent; border: 1px solid #666; color: inherit; border-radius: 2px;" />
-                    <input type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName || '')}" style="min-width: 220px; padding: 0.5em; background: transparent; border: 1px solid #666; color: inherit; border-radius: 2px;" />
-                    <label class="emby-checkbox-label">
-                        <input type="checkbox" is="emby-checkbox" class="emby-checkbox traktListEnabled" ${listConfig.Enabled !== false ? 'checked' : ''}>
-                        <span data-i18n="AdminEnabled">Enabled</span>
-                    </label>
-                    <button is="emby-button" type="button" class="raised emby-button btnRemoveTraktList">
-                        <span data-i18n="AdminRemove">Remove</span>
-                    </button>
-                `;
+                const listIdInput = document.createElement('input');
+                listIdInput.type = 'text';
+                listIdInput.className = 'traktListId';
+                listIdInput.placeholder = 'List ID';
+                listIdInput.title = 'i.e 24544504';
+                listIdInput.value = listConfig.ListId || '';
+                listIdInput.style.cssText = 'min-width: 180px; padding: 0.5em; background: transparent; border: 1px solid #666; color: inherit; border-radius: 2px;';
 
-                row.querySelector('.btnRemoveTraktList').addEventListener('click', function () {
+                const displayNameInput = document.createElement('input');
+                displayNameInput.type = 'text';
+                displayNameInput.className = 'traktListDisplayName';
+                displayNameInput.placeholder = 'Display Name';
+                displayNameInput.title = 'Defaults to list ID if blank.';
+                displayNameInput.value = listConfig.DisplayName || '';
+                displayNameInput.style.cssText = 'min-width: 220px; padding: 0.5em; background: transparent; border: 1px solid #666; color: inherit; border-radius: 2px;';
+
+                const checkboxLabel = document.createElement('label');
+                checkboxLabel.className = 'emby-checkbox-label';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.setAttribute('is', 'emby-checkbox');
+                checkbox.className = 'emby-checkbox traktListEnabled';
+                checkbox.checked = listConfig.Enabled !== false;
+
+                const checkboxSpan = document.createElement('span');
+                checkboxSpan.setAttribute('data-i18n', 'AdminEnabled');
+                checkboxSpan.textContent = 'Enabled';
+
+                checkboxLabel.appendChild(checkbox);
+                checkboxLabel.appendChild(checkboxSpan);
+
+                const removeButton = document.createElement('button');
+                removeButton.setAttribute('is', 'emby-button');
+                removeButton.type = 'button';
+                removeButton.className = 'raised emby-button btnRemoveTraktList';
+
+                const removeSpan = document.createElement('span');
+                removeSpan.setAttribute('data-i18n', 'AdminRemove');
+                removeSpan.textContent = 'Remove';
+
+                removeButton.appendChild(removeSpan);
+                removeButton.addEventListener('click', function () {
                     row.remove();
                 });
+
+                row.appendChild(listIdInput);
+                row.appendChild(displayNameInput);
+                row.appendChild(checkboxLabel);
+                row.appendChild(removeButton);
 
                 container.appendChild(row);
                 applyTranslations(row);

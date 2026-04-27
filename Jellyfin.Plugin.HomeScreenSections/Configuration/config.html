@@ -1019,9 +1019,18 @@
                             json.Items.forEach(sectionType => {
                                 let sectionConfig = config.SectionSettings.find(s => s.SectionId === sectionType.Section);
                                 if (!sectionConfig) {
+                                    const defaultEnabledSections = [
+                                        'MyMedia',
+                                        'ContinueWatching',
+                                        'NextUp',
+                                        'RecentlyAddedMovies',
+                                        'RecentlyAddedShows',
+                                        'DiscoverMovies',
+                                        'DiscoverTV'
+                                    ];
                                     sectionConfig = {
                                         SectionId: sectionType.Section,
-                                        Enabled: true,
+                                        Enabled: defaultEnabledSections.includes(sectionType.Section),
                                         AllowUserOverride: true,
                                         LowerLimit: 1,
                                         UpperLimit: sectionType.Limit,

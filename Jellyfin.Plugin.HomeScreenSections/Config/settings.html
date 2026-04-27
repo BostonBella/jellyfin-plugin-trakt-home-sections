@@ -93,24 +93,15 @@
                                 for (let i = 0; i < response.TotalRecordCount; ++i) {
                                     let section = response.Items[i];
 
-                                    let disabled = !hssMeta.AllowUserOverride;
-                                    let checked = false;
-                                    if (settings.EnabledSections.includes(section.Section)) {
-                                        checked = true;
+                                    // Skip sections the user cannot interact with
+                                    if (settings.LockedSections.includes(section.Section)) {
+                                        continue;
                                     }
 
-                                    if (!disabled) {
-                                        if (settings.LockedSections.includes(section.Section)) {
-                                            disabled = true;
-                                        }
-                                    }
+                                    let checked = settings.EnabledSections.includes(section.Section);
 
-                                    if (disabled) {
-                                        checked = settings.DefaultEnabledSections.includes(section.Section);
-                                    }
-
-                                    html += '<label class="checkboxContainer" style="' + (disabled ? 'opacity: 0.5;' : '') + '">';
-                                    html += '<input ' + (disabled ? 'disabled="true"' : '') + ' is="emby-checkbox" type="checkbox" class="sectionEnabledCheckbox" data-section="' + section.Section + '" ' + (checked ? 'checked' : '') + ' />';
+                                    html += '<label class="checkboxContainer">';
+                                    html += '<input is="emby-checkbox" type="checkbox" class="sectionEnabledCheckbox" data-section="' + section.Section + '" ' + (checked ? 'checked' : '') + ' />';
                                     html += '<span>' + section.DisplayText + '</span>';
                                     html += '</label>';
                                 }

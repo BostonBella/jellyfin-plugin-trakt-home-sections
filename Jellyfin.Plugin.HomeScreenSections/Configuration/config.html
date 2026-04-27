@@ -1116,6 +1116,14 @@
             }
 
             function authorizeTrakt() {
+                const clientId = document.querySelector('#txtTraktClientId').value.trim();
+                const clientSecret = document.querySelector('#txtTraktClientSecret').value.trim();
+
+                if (!clientId || !clientSecret) {
+                    Dashboard.alert('Please enter your Trakt Client ID and Client Secret in the Trakt Developer Settings section before linking your account.');
+                    return;
+                }
+
                 const btn = document.querySelector('#btnAuthorizeTrakt');
                 btn.disabled = true;
                 Dashboard.showLoadingMsg();

@@ -1,0 +1,22 @@
+[
+  {
+    "category": "General",
+    "guid": "dad4eb58-9344-45a5-8cc1-7bd0d7eb9da2",
+    "imageUrl": "https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/trakt-integration-tab/logo.png",
+    "name": "Trakt Home Sections",
+    "description": "Replaces the default Jellyfin home screen with a fully customizable set of rows organized by category. Includes standard Jellyfin sections alongside Trakt-powered rows (watchlist, recommendations, trending, custom lists), Jellyseerr discovery and request sections, and upcoming content from your arr calendars. Requires the File Transformation and Plugin Pages plugins.",
+    "overview": "Customizable home screen with Trakt, Jellyseerr, and arr integration.",
+    "owner": "BostonBella",
+    "targetAbi": "10.11.0.0",
+    "versions": [
+      {
+        "version": "1.0.0.0",
+        "changelog": "Initial release.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/BostonBella/jellyfin-plugin-trakt-home-sections/releases/download/v1.0.0.0/trakt-home-sections-1.0.0.0.zip",
+        "checksum": "00000000000000000000000000000000",
+        "timestamp": "2026-04-27T11:51:34Z"
+      }
+    ]
+  }
+]

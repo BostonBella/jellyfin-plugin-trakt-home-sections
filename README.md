@@ -1,13 +1,12 @@
-cat > /workspaces/jellyfin-plugin-trakt-home-sections/README.md << 'READMEEOF'
 <h1 align="center">Trakt Home Sections</h1>
 <h2 align="center">A Jellyfin Plugin</h2>
 <p align="center">
-	<img alt="Logo" src="https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/main/logo.png" />
+	<img alt="Logo" src="https://raw.githubusercontent.com/BostonBella/jellyfin-plugin-trakt-home-sections/trakt-integration-tab/logo.png" />
 </p>
 
 ## Introduction
 
-Trakt Home Sections is a Jellyfin plugin that gives you a dynamic, fully customizable home screen with deep integration for [Trakt](https://trakt.tv), [Jellyseerr](https://github.com/Fallenbagel/jellyseerr), and the \*arr ecosystem. Rows are organized by category and ordered using a simple drag-and-drop interface rather than manual numbering.
+Trakt Home Sections is a Jellyfin plugin that gives you a dynamic, fully customizable home screen with deep integration for [Trakt](https://trakt.tv), [Jellyseerr](https://github.com/Fallenbagel/jellyseerr), and the *arr ecosystem. Sections are organized by category and configurable from the admin dashboard.
 
 It is a fork of [Home Screen Sections](https://github.com/IAmParadox27/jellyfin-plugin-home-sections) by IAmParadox27, extended with native Trakt integration and a redesigned admin interface.
 
@@ -17,11 +16,11 @@ It is a fork of [Home Screen Sections](https://github.com/IAmParadox27/jellyfin-
 
 ## Sections
 
-The plugin replaces the default Jellyfin home screen with configurable rows organized into four categories. Each category has its own admin tab.
+The plugin replaces the default Jellyfin home screen with configurable sections organized into four categories. Each category has its own admin tab.
 
 ### Default Home
 
-Standard Jellyfin rows, fully configurable:
+Standard Jellyfin sections, fully configurable:
 
 - **My Media** - same as vanilla Jellyfin
 - **Continue Watching** - resume where you left off
@@ -30,34 +29,34 @@ Standard Jellyfin rows, fully configurable:
 - **Latest** - latest movies, shows, albums, books, audiobooks, music videos
 - **Because You Watched** - recommendations based on viewing history
 - **Watch Again** - completed movies and shows surfaced for a rewatch, starting from the first in a collection or series
-- **Genre** - a weighted random genre row drawn from your watch history
+- **Genre** - a weighted random genre section drawn from your watch history
 - **My List** - your personal saved list
 - **Top Ten** - your top ten most watched content
 - **Live TV** - same as vanilla Jellyfin
 
 ### Jellyseerr
 
-Sections powered by your Jellyseerr instance, showing content not yet in your library with one-click requesting:
+Sections powered by your Jellyseerr instance, showing content not yet in your library with one-click requesting. **Requires Jellyseerr to be configured.**
 
 - **Discover Movies**
 - **Discover TV**
 - **Trending**
-- **My Requests** - all of your pending and fulfilled requests in one row
+- **My Requests** - all of your pending and fulfilled requests in one section
 
 ### Trakt
 
-Sections powered by your linked Trakt account:
+Sections powered by your linked Trakt account. **Requires both Trakt authorization and Jellyseerr to be configured.**
 
 - **Watchlist** - movies and shows on your Trakt watchlist
 - **Movie Recommendations** - personalized movie recommendations from Trakt
 - **Show Recommendations** - personalized show recommendations from Trakt
 - **Trending Movies** - what is trending on Trakt right now
 - **Trending Shows** - trending shows on Trakt right now
-- **Custom Lists** - add any public or private Trakt list as its own home screen row
+- **Custom Lists** - add any public or private Trakt list as its own home screen section
 
 ### Upcoming
 
-Sections pulled from your \*arr calendars:
+Sections pulled from your *arr calendars. **Requires arr API keys to be configured.**
 
 - **Upcoming Movies** - from Radarr
 - **Upcoming Shows** - from Sonarr
@@ -71,6 +70,7 @@ Sections pulled from your \*arr calendars:
 ### Prerequisites
 
 - Jellyfin **10.10.7** or **10.11.x**
+- [Jellyseerr](https://github.com/Fallenbagel/jellyseerr) - required for Jellyseerr sections and all Trakt sections
 - The following plugins must also be installed:
   - [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation)
   - [Plugin Pages](https://github.com/IAmParadox27/jellyfin-plugin-pages)
@@ -89,10 +89,10 @@ Sections pulled from your \*arr calendars:
 
 1. From the Jellyfin dashboard go to **Plugins -> Trakt Home Sections** to open the admin config.
 2. Use the tabs to configure each section category:
-   - **Default Home** - enable and order your standard Jellyfin rows
+   - **Default Home** - enable and order your standard Jellyfin sections
    - **Jellyseerr** - enter your Jellyseerr URL and API key, then enable the sections you want
-   - **Trakt** - link your Trakt account and enable the sections you want; add custom Trakt lists here
-   - **Upcoming** - enter your \*arr URLs and API keys
+   - **Trakt** - enter your Trakt Client ID and Secret first, then link your account and enable the sections you want; add custom Trakt lists here
+   - **Upcoming** - enter your *arr URLs and API keys
    - **Advanced** - additional plugin settings
 3. On the Jellyfin home screen open the hamburger menu and click **Home Sections**.
 4. Enable the sections you want and save.
@@ -102,9 +102,13 @@ Sections pulled from your \*arr calendars:
 
 ## Trakt Authorization
 
-1. Go to **Plugins -> Trakt Home Sections -> Trakt** tab.
-2. Click **Link Trakt Account** and follow the device authorization flow on trakt.tv.
-3. Once authorized your Trakt sections will become active.
+Before linking your Trakt account you must first create a Trakt API application and enter your Client ID and Secret in the **Trakt Configuration** section of the admin config.
+
+1. Go to [trakt.tv/oauth/applications](https://trakt.tv/oauth/applications) and create a new application.
+2. Copy the Client ID and Secret into the **Trakt Configuration** section in the plugin admin config and save.
+3. Go to the **Trakt Authorization** section and click **Link Trakt Account**.
+4. Follow the device authorization flow on trakt.tv.
+5. Once authorized your Trakt sections will become active.
 
 To find the ID for a custom Trakt list: go to the list on trakt.tv, click the **Copy Link** icon, and paste the URL. The numeric ID is at the end of that URL.
 
@@ -116,9 +120,17 @@ To find the ID for a custom Trakt list: go to the list on trakt.tv, click the **
 
 Open your browser developer tools, go to the **Network** tab, check **Disable cache**, and refresh the page while dev tools are still open. This clears cached Jellyfin web client files that may be serving the old home screen.
 
+**Jellyseerr sections are not appearing**
+
+Make sure your Jellyseerr URL and API key are entered in the Jellyseerr tab of the admin config. Without these, Jellyseerr sections will not display any content.
+
 **Trakt sections are not appearing**
 
-Make sure your Trakt account is linked in the Trakt tab and that at least one Trakt section is enabled. Trakt sections will not appear until authorization has been completed.
+Trakt sections require two things to work: your Trakt account must be linked, and Jellyseerr must be configured. Trakt uses Jellyseerr to fetch card images and metadata. Check that both are set up in the admin config.
+
+**Home Sections menu not appearing in the hamburger menu**
+
+If the admin has disabled user override, the Home Sections option will not appear in the hamburger menu. Contact your Jellyfin administrator.
 
 **Cards are landscape instead of portrait**
 
@@ -135,5 +147,3 @@ This plugin is built on top of [Home Screen Sections](https://github.com/IAmPara
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
-
-READMEEOF

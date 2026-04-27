@@ -795,8 +795,8 @@
                 row.style.marginBottom = '1em';
 
                 row.innerHTML = `
-                    <input type="text" class="emby-input traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId || '')}" style="min-width: 180px;" />
-                    <input type="text" class="emby-input traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName || '')}" style="min-width: 220px;" />
+                    <input type="text" class="traktListId" placeholder="List ID" value="${escapeHtmlAttribute(listConfig.ListId || '')}" style="min-width: 180px; padding: 0.5em; background: transparent; border: 1px solid #666; color: inherit; border-radius: 2px;" />
+                    <input type="text" class="traktListDisplayName" placeholder="Display Name" value="${escapeHtmlAttribute(listConfig.DisplayName || '')}" style="min-width: 220px; padding: 0.5em; background: transparent; border: 1px solid #666; color: inherit; border-radius: 2px;" />
                     <label class="emby-checkbox-label">
                         <input type="checkbox" is="emby-checkbox" class="emby-checkbox traktListEnabled" ${listConfig.Enabled !== false ? 'checked' : ''}>
                         <span data-i18n="AdminEnabled">Enabled</span>
@@ -1046,6 +1046,8 @@
                 return String(error);
             }
 
+            var traktIsAuthorizing = false;
+
             function setTraktAuthorizationState(state) {
                 document.querySelector('#traktNotAuthorizedSection').style.display = state === 'notAuthorized' ? 'block' : 'none';
                 document.querySelector('#traktAuthorizingSection').style.display = state === 'authorizing' ? 'block' : 'none';
@@ -1061,11 +1063,16 @@
                         'Accept': 'application/json'
                     }
                 }).then(parseAjaxJson).then(status => {
+                    if (traktIsAuthorizing && !status.isAuthorized) {
+                        return false;
+                    }
                     setTraktAuthorizationState(status.isAuthorized ? 'authorized' : 'notAuthorized');
                     return status.isAuthorized;
                 }).catch(error => {
                     console.error('Failed to check Trakt authorization status:', error);
-                    setTraktAuthorizationState('notAuthorized');
+                    if (!traktIsAuthorizing) {
+                        setTraktAuthorizationState('notAuthorized');
+                    }
                     return false;
                 });
             }
@@ -1085,18 +1092,35 @@
                     }
                 }).then(parseAjaxJson).then(result => {
                     document.querySelector('#traktUserCodeDisplay').textContent = result.userCode || '------';
+                    traktIsAuthorizing = true;
                     setTraktAuthorizationState('authorizing');
 
+                    const expiryMs = (result.expiresIn || 600) * 1000;
+                    let elapsed = 0;
+
                     const authorizationCheckInterval = setInterval(function () {
+                        elapsed += 5000;
+
+                        if (elapsed >= expiryMs) {
+                            clearInterval(authorizationCheckInterval);
+                            traktIsAuthorizing = false;
+                            btn.disabled = false;
+                            setTraktAuthorizationState('notAuthorized');
+                            Dashboard.alert('Trakt authorization timed out. Please try again.');
+                            return;
+                        }
+
                         refreshTraktAuthorizationStatus().then(isAuthorized => {
                             if (isAuthorized) {
                                 clearInterval(authorizationCheckInterval);
+                                traktIsAuthorizing = false;
                                 btn.disabled = false;
                             }
                         });
                     }, 5000);
                 }).catch(error => {
                     console.error('Failed to authorize Trakt:', error);
+                    traktIsAuthorizing = false;
                     btn.disabled = false;
 
                     const errorMessage = getAjaxErrorMessage(error);
